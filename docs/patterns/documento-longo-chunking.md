@@ -11,12 +11,12 @@ Fontes grandes demais pra caber no contexto: um livro, um relatório extenso, um
 3. **Detectar unidades** (capítulos/seções) por uma cascata de padrões. Registrar a contagem antes de processar.
 4. **Processar UMA unidade por vez** (nunca carregar a fonte inteira no contexto). Cada unidade gera Markdown com seções fixas (síntese · conceitos-chave · citações · aplicações no domínio) e **é salva imediatamente antes de avançar**.
 5. **Consolidar** depois de todas — a síntese-mãe é gerada **a partir dos arquivos salvos, não relendo a fonte** (tese central · conceitos fundamentais · tabela de estrutura · links pras unidades).
-6. **Atualizar `index.md` + `log.md`** e, opcionalmente, publicar a síntese-mãe externamente.
+6. **Atualizar o `index.md` da pasta da categoria + `log.md`** e, opcionalmente, publicar a síntese-mãe externamente.
 
 ## Saída e efeito na wiki
 - **Por unidade:** `<categoria>/<slug>/parte-NN-<slug>.md` (NN com zero à esquerda). Granularidade fina, recuperável individualmente.
 - **Síntese-mãe:** `<categoria>/<slug>/index.md` — página-mãe com tabela de estrutura + links pras partes. É a candidata natural a subir pra uma publicação externa (as partes não sobem).
-- **`index.md` global:** uma linha pra página-mãe.
+- **Índice da categoria:** uma linha pra página-mãe (as partes não entram no índice — só a mãe).
 
 ## Idempotência
 **Estado no filesystem:** cada unidade é gravada quando pronta; a síntese relê esses arquivos → tolera contexto longo e falha no meio (trabalho parcial fica salvo). Se o slug já existe, avisar e **perguntar** antes de reprocessar (não sobrescrever cego). Para fontes sem marcadores de unidade, fatiar por tamanho com overlap entre blocos.

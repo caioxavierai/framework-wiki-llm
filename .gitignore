@@ -1,4 +1,23 @@
 .DS_Store
 node_modules/
 *.log
-.env
+.env*
+!.env.example
+__pycache__/
+*.pyc
+*.bak-*
+scripts/.curadoria-state.json
+scripts/uso-historico.json
+scripts/.codex-curadoria-reviewed.json
+
+# Pasta sincronizada (Syncthing) e arquivos locais do editor/agente
+.stfolder
+.stversions/
+*.sync-conflict-*
+CLAUDE.local.md
+.claude/settings.local.json
+.obsidian/
+
+# Chaves nunca entram
+*.pem
+id_rsa*

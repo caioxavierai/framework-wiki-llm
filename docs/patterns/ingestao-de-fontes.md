@@ -16,7 +16,7 @@ Ingestão contínua de material de estudo/pesquisa: artigos, documentação, ví
 ## Saída e efeito na wiki
 - **Arquivo denso** (a fonte de verdade): template fixo com resumo executivo **neutro/público**, resumo denso técnico, e aplicação/insights aterrados no domínio.
 - **Página de wiki:** uma versão **destilada** em `ferramentas/<slug>.md` ou `conceitos/<slug>.md` (categoria auto-detectada). Em página existente, faz **upsert só de um bloco gerenciado** entre marcadores HTML, preservando o resto (que pode ter sido editado por humano).
-- **`index.md` + `log.md`** atualizados (idempotentes).
+- **`index.md` da pasta da categoria + `log.md`** atualizados (idempotentes; o índice da raiz só muda se nascer uma área — ver [01](../01-metodologia-e-anatomia.md)). Nunca narrativa de atualização em índice.
 
 ## Idempotência
 Âncora = **marcadores HTML + slug determinístico** (não hash). Reingestão substitui só o bloco gerenciado via regex; página nova vs. update decidido por existência do arquivo. `index.md` dedup pela presença do link; `log.md` dedup por assinatura.

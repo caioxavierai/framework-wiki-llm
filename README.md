@@ -24,18 +24,20 @@ FONTES BRUTAS  →  [Ingest]  →  WIKI (síntese viva)  →  [Query]  →  o ag
 
 ## Por que este framework (e não só o gist)
 
-O gist do Karpathy é **deliberadamente abstrato** — descreve a ideia e sugere que cada um construa sua versão. Este repositório **é uma versão madura, comprovada em uso diário**, que vai além em dois pontos:
+O gist do Karpathy é **deliberadamente abstrato** — descreve a ideia e sugere que cada um construa sua versão. Este repositório **é uma versão madura, comprovada em uso diário**, que vai além do gist em quatro pontos:
 
 - **Ingest automatizado** — em vez de pedir ao LLM "ingira esta fonte" toda vez, você tem **alimentadores** (skills/rotinas) que fazem isso sozinhos. → [docs/02](docs/02-alimentadores.md) + [patterns](docs/patterns/)
 - **Lint automatizado** — a checagem de saúde vira **rotina de curadoria** com a régua "detecta sozinho, escreve com gate humano". → [docs/03](docs/03-manutencao-e-curadoria.md)
+- **Escala sem inchar** — **índice em dois níveis** (a raiz mapeia áreas, cada pasta lista suas páginas): numa wiki real de 147 páginas, o custo de entrada caiu de ~53 mil para menos de 1 mil tokens. → [docs/01](docs/01-metodologia-e-anatomia.md)
+- **Padrão aberto** — a wiki nasce conformante com o [OKF](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) (custo: um campo `type` por página). → [docs/05](docs/05-conformidade-okf.md)
 
 ## Quick start — montar sua wiki em 5 passos
 
-1. **Copie os [templates/](templates/)** pra uma pasta nova: `SCHEMA.md`, `CLAUDE.md`, `index.md`, `log.md`.
-2. **Defina suas categorias** (subpastas) = as dimensões do seu domínio.
-3. **Aponte seu agente** pra ler o `index.md` ao iniciar e atualizar ao concluir (já está no `CLAUDE.md` template).
+1. **Gere a estrutura** (Python 3, sem instalar nada): `python3 scripts/wiki_new.py ~/minha-wiki --nome "Pessoal" --categorias "conceitos:ideias e conceitos;ferramentas:o que uso"` — instancia os [templates/](templates/) (`SCHEMA.md`, `CLAUDE.md`, `index.md`, `log.md` + um índice por categoria), já conformante com OKF.
+2. **Ajuste as categorias** (subpastas) = as dimensões do seu domínio, e complete os `<placeholders>` do `SCHEMA.md`/`CLAUDE.md`.
+3. **Aponte seu agente** pra ler o `index.md` ao iniciar e atualizar ao concluir (já está no `CLAUDE.md`/`AGENTS.md` template).
 4. **Comece a ingerir** — manualmente, ou montando um [alimentador](docs/02-alimentadores.md).
-5. **Ligue a curadoria** quando crescer ([docs/03](docs/03-manutencao-e-curadoria.md)) — há scripts de exemplo em [examples/scripts/](examples/scripts/).
+5. **Ligue a curadoria** quando crescer ([docs/03](docs/03-manutencao-e-curadoria.md)) — checagem de saúde em [scripts/](scripts/) e skills prontas em [examples/skills/](examples/skills/).
 
 Guia completo em **[docs/04 — Replicação](docs/04-replicacao.md)**.
 
@@ -46,16 +48,19 @@ Guia completo em **[docs/04 — Replicação](docs/04-replicacao.md)**.
 | **[01 — Metodologia & Anatomia](docs/01-metodologia-e-anatomia.md)** | A fundação, as 3 camadas, as 3 operações, e a anatomia canônica de uma wiki. **Comece aqui.** |
 | **[02 — Alimentadores](docs/02-alimentadores.md)** | O Ingest automatizado: a "anatomia de um alimentador" + os padrões em [patterns/](docs/patterns/). |
 | **[03 — Manutenção & Curadoria](docs/03-manutencao-e-curadoria.md)** | O Lint automatizado: a régua "detecta sozinho, escreve com gate" + curadoria das sessões. |
-| **[04 — Replicação](docs/04-replicacao.md)** | Casos de uso + guia passo-a-passo pra montar uma wiki nova. |
-| [templates/](templates/) | Starter-kit: os 4 arquivos-raiz prontos pra copiar + modelo de página. |
-| [examples/](examples/) | Mini-wiki de exemplo + scripts educativos (lint e digest de sessões). |
+| **[04 — Replicação](docs/04-replicacao.md)** | Casos de uso, lições de multi-instância + guia passo-a-passo pra montar uma wiki nova. |
+| **[05 — Conformidade OKF](docs/05-conformidade-okf.md)** | O padrão aberto: a régua de conformidade, o que o framework adota e o que não adota, e como migrar uma wiki existente. |
+| [templates/](templates/) | Starter-kit: os arquivos-raiz prontos + índices de raiz/pasta + modelo de página. |
+| [scripts/](scripts/) | Ferramentas em Python (só biblioteca padrão): criar wiki, checar saúde, sincronizar índices, injetar frontmatter, digest de sessões. |
+| [examples/](examples/) | Mini-wiki de exemplo no formato atual + skills de curadoria (`wiki-correcao`, `wiki-curadoria`). |
 
 ## Estrutura do repositório
 
 ```
 docs/        — a metodologia e os padrões
 templates/   — starter-kit (copie e comece)
-examples/    — exemplo navegável + scripts de referência
+scripts/     — ferramentas (criar, checar, indexar, minerar sessões) + testes
+examples/    — wiki de exemplo navegável + skills de curadoria
 ```
 
 ## Créditos e uso

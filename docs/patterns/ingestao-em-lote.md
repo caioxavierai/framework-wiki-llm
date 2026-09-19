@@ -16,7 +16,7 @@ Processar muitas fontes de uma vez, de forma agendada/automática (ex.: um feed 
 ## Saída e efeito na wiki
 - **Contrato JSON** com campos fixos (título, slug, categoria, resumo público, resumo denso, aplicação, insights, confiança). Regras embutidas: campos obrigatórios, mínimo de itens por lista, resumo público sem dados privados.
 - **Markdown** renderizado nas seções canônicas.
-- **Wiki:** mesmo ingester do padrão de ingestão de fontes (upsert de bloco gerenciado + index/log idempotentes).
+- **Wiki:** mesmo ingester do padrão de ingestão de fontes (upsert de bloco gerenciado + índice da pasta/log idempotentes).
 
 ## Idempotência e robustez
 - **Falha isolada** por item não derruba o lote.

@@ -20,16 +20,20 @@ Reuniões recorrentes cujo conteúdo precisa virar memória durável: 1:1s, reun
 4. **Grava** a síntese + propaga pras páginas via **Edit add-only**; omissões deliberadas vão pro log (auditáveis — "sem corte silencioso").
 
 ## Saída e efeito na wiki
-- **Síntese da reunião** numa página datada.
+- **Síntese da reunião** numa página datada, com frontmatter (`type: Transcrição`).
 - **N páginas-tópico** atualizadas via **Edit add-only** (nunca apaga; contradição vira nota datada).
-- **`index.md`** (quando cria página) e **`log.md`** (com o hash, e as omissões nas Notas).
+- **`index.md` da pasta** que recebeu a página (a síntese entra no índice por passo explícito; o índice da raiz só muda se nascer uma área) e **`log.md`** (com o hash, e as omissões nas Notas). **Nunca** narrativa de atualização em índice — ver [01](../01-metodologia-e-anatomia.md).
 
 ## Idempotência
 **Hash do conteúdo (ex.: SHA-1) + o log como registro:** hash ausente → `append`; hash visto → `replace` (sobrescreve a síntese, substitui a entrada in-place, marca "reprocessada"). Rodar duas vezes não duplica. Hash só do conteúdo (não da formatação) desacopla a idempotência de mudanças cosméticas.
 
 ## Gotchas / decisões de design
 - **Checkpoint humano é o que separa "wiki que envenena" de "segundo cérebro confiável":** classificar é autônomo, **gravar nunca é**.
-- **Dicionário de entidades canônicas anti-alucinação:** nunca inferir nome próprio de transcrição ruidosa; tratar como dúvida e confirmar.
+- **Dicionário de entidades canônicas anti-alucinação:** nunca inferir nome próprio de transcrição ruidosa; tratar como dúvida e confirmar. Caso real: num backfill de 8 reuniões, o reconhecimento de voz transformou "handoff" em "Randolph" dezenas de vezes — sem a etapa de decodificação, a base teria inventado uma pessoa. A confirmação humana volta para o glossário, com data.
+- **Leitura paginada obrigatória:** a ferramenta de leitura trunca arquivos longos (1h de reunião ≈ 48 mil tokens). Ler até o fim, em páginas; nunca sintetizar a partir da primeira.
+- **Passo 0 determinístico (opcional, recomendado):** um helper read-only que resolve o arquivo (caminho, nome ou "a mais recente"), detecta o formato da transcrição, calcula o hash e decide append × replace **antes** de o LLM ler qualquer coisa.
+- **`--seco` ≠ `--auto`:** dry-run (para antes do checkpoint, não grava) versus pular o checkpoint com defaults conservadores. Sem flags, o checkpoint roda sempre.
+- **Quando a wiki é da própria empresa**, a reunião pode também mover a execução: ver [Ponte com o sistema de gestão](ponte-com-sistema-de-gestao.md).
 - **Snapshot imutável vs. curado Edit-progressivo:** o snapshot preserva fidelidade histórica por sessão; o curado mantém a verdade atual; a tensão se resolve **marcando** contradições, nunca apagando.
 - **Privacidade:** mascarar dados de pessoas na síntese (preservar no raw); a wiki pode ser lida por outros.
 - **Determinístico + LLM:** o código dá recall barato e reproduzível (parse, chunk, classificação); o LLM entra só pra precision e julgamento.

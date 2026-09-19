@@ -3,20 +3,20 @@
 Material de referência pra ver o framework funcionando.
 
 ## `wiki-exemplo/`
-Uma mini-wiki navegável — os 4 arquivos-raiz (`SCHEMA.md`, `CLAUDE.md`, `index.md`, `log.md`) + algumas páginas com wikilinks entre si. Serve pra:
+Uma mini-wiki fictícia, navegável, **no formato atual**: índice em dois níveis (a raiz mapeia as áreas, cada pasta lista as suas páginas), frontmatter OKF em toda página, links em markdown relativo e `log.md` como único lugar de histórico. Foi montada com [`scripts/wiki_new.py`](../scripts/wiki_new.py) e serve pra:
 - ver como uma wiki real fica montada;
-- rodar os scripts abaixo contra ela.
-
-## `scripts/`
-Versões de **referência** dos utilitários de curadoria ([docs/03](../docs/03-manutencao-e-curadoria.md)). Rodam com [Bun](https://bun.sh). São educativos — leia e adapte ao seu caso.
-
-- **`wiki-lint.ts`** — Camada A (saúde mecânica), 100% read-only. Detecta links quebrados, órfãs, drift do índice, header defasado e páginas estagnadas.
+- rodar as ferramentas contra ela:
   ```bash
-  WIKI_ROOT=./examples/wiki-exemplo bun run examples/scripts/wiki-lint.ts
-  ```
-- **`sessions-digest.ts`** — Estágio 1 da Camada B: varre as sessões novas do seu agente e extrai um digest barato pro agente minerar. **O formato de sessão varia por agente** — adapte o `parseSession()` ao seu (o exemplo assume `.jsonl` por evento).
-  ```bash
-  SESSIONS_DIRS=~/.seu-agente/sessions bun run examples/scripts/sessions-digest.ts
+  python3 scripts/wiki_lint.py examples/wiki-exemplo --okf   # saúde: 0 achados
+  python3 scripts/wiki_index.py examples/wiki-exemplo        # índices em dia
   ```
 
-> Ambos são read-only sobre o conteúdo; a escrita na wiki é sempre do agente, com aprovação humana (a régua "detecta sozinho, escreve com gate").
+## `skills/`
+As duas skills de curadoria, em versão genérica — o **Lint automatizado** descrito em [docs/03](../docs/03-manutencao-e-curadoria.md):
+
+- **`wiki-correcao`** — Camada A: roda o checker de saúde e propõe as correções, com gate humano.
+- **`wiki-curadoria`** — Camada A + B: minera as sessões recentes do seu agente e propõe o que é novo, o que mudou e o que parou de ser usado.
+
+Para usar, copie a pasta da skill para as skills do seu agente (no Claude Code, `~/.claude/skills/`) e ajuste os caminhos `<framework>` e `<wiki>` dentro dela.
+
+> As ferramentas que essas skills chamam estão em [`scripts/`](../scripts/), na raiz do repositório (Python, só biblioteca padrão). A régua é sempre a mesma: **detecta sozinho, escreve com gate.**

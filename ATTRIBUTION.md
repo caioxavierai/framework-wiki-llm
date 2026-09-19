@@ -12,6 +12,10 @@ O gist do Karpathy descreve a **ideia** de forma deliberadamente abstrata — um
 
 > Os conceitos centrais (a ideia, as 3 camadas, as 3 operações, index/log) são do Karpathy. A instanciação, os padrões de alimentador, a régua de curadoria e o material deste repo são a contribuição deste fork.
 
+## O padrão aberto de conformidade
+
+A camada de conformidade descrita em [docs/05](docs/05-conformidade-okf.md) segue o **Open Knowledge Format (OKF)**, especificação aberta publicada em <https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md>. A especificação e seus termos são de seus autores; este repositório apenas documenta como uma wiki do framework nasce conformante com ela.
+
 ## Autoria do fork
 
 Instanciação e documentação **by @caioxavier.ai**.

@@ -1,25 +1,18 @@
-# CLAUDE.md — Instrução do Agente para esta Wiki
+# CLAUDE.md — Wiki <NOME-DA-WIKI>
 
-> Instrução para o agente (Claude Code, Codex, etc.) ao trabalhar nesta wiki.
-> *(Template — adapte ao seu contexto. Se usar Codex/outro, renomeie para `AGENTS.md`.)*
+> Instrução para agentes que trabalham nesta wiki.
 
----
+## Ao iniciar
 
-## Ao iniciar uma sessão
-1. Ler `index.md` pra ter o contexto acumulado.
-2. Se houver página relacionada ao tema da sessão, ler também.
-3. **Se a página real divergir do index, a página vence** — sinalizar o drift.
+1. Ler [`index.md`](index.md) — mapa das **áreas** (curto, de propósito).
+2. Identificar a área de trabalho e abrir o `index.md` **daquela pasta**. Não carregar as outras.
+3. Ler as últimas 5 entradas do [`log.md`](log.md) — contexto recente. **Todo histórico vive lá, nunca nos índices.**
 
-## Durante a sessão
-- Ao encontrar algo já documentado, consultar a página antes de recomendar.
-- Ao tomar uma decisão, verificar se contradiz algo na wiki.
-- Ao descobrir algo útil que não está na wiki, anotar pra atualizar ao final.
+## Hierarquia de fontes
 
-## Ao concluir algo relevante
-Atualizar a página correspondente (criar se não existir) e **registrar em `log.md`**. Boa resposta de chat que vira conhecimento durável → virar página antes de se perder.
+<1. fonte canônica · 2. esta wiki · 3. sistemas vivos (MCP etc.) — adaptar ao domínio.>
 
-## Regras
-- A wiki é **síntese**, não cópia das fontes brutas (que são imutáveis).
-- Escrita é **add-only**: não apagar; informação superada vira nota datada.
-- Privacidade: não expor dados sensíveis em páginas que outros leem.
-- Seguir as convenções do `SCHEMA.md`.
+## Ao concluir algo durável
+
+Atualizar a página (add-only) → linha no `index.md` da pasta (se página nova) → entrada no `log.md`.
+Página nova SEMPRE nasce com frontmatter (`type` no mínimo). Seguir o `SCHEMA.md` — ele é lei.
